@@ -1,7 +1,26 @@
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
 
-In this paper, we have
+In this research project, we build a deep learning based minutiae detector which can extract the minutiae accurately.
+We also trained another minutiae feature network to learn a unique feature for every minutiae.
+We also trained a triplet graph neural network which preserves the geometric information on the MNIST dataset and achieves high accuracy, which is also planed to be used in our extracted minutiae feature.
 
+There are some limitations of our work:
+\begin{enumerate}
+    \item Since our work is based deep learning based method, which usually requires a lot of data to training the neural network, thus the success of our work relies on the amount of data and the quality of data we have. Deep neural work will show its power once more data is available. However, conventional hard coded matching conditions do not suffer from this problem.
+    \item Similar to other matching learning task, our work main also have over-fitting issue due to the limited amount of data that we have. Therefore, to mitigate this issue, a large number of experiments on different sources of fingerprint data should be made to validate the generality power of our matching algorithm.
+\end{enumerate}
 
-There are several directions that deserve to explore in the future:
+Due to the time limitation, we now have not implemented the whole pipeline and use graph neural network in the minutiae, which is one of the main work we plan to do in the future.
+Apart from this, there are several other directions that deserve to explore in the future:
+
+\begin{enumerate}
+    \item We plan to do more experiments on some big fingerprint datasets, such as the CASIA v5 fingerprint dataset \cite{CASIAFingerprintV5} and the NIST 302 dataset \cite{NIST302}.
+    \item We plan to reduce the network depth and tried to propose more light-weighted model. 
+    It takes about 19ms to extract the minutiae and corresponding feature in a NVIDIA 2080-Ti GPU card, which is fast enough for realistic usage.
+    However, it will take tens of times or even hundreds of times under a low performance devices.
+    Therefore, we plan to improve this and propose much more light-weighted model after fully implemented the pipeline.
+    \item We plan to improve our model to address the problem of non-linear distortion, which is now not solved in current model.
+    \item We also plan to improve our model and use it in the latent fingerprint datasets.
+\end{enumerate}
+
