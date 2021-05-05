@@ -1,40 +1,43 @@
 \documentclass[12pt, a4paper]{article}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{graphicx}
-% \usepackage{authblk}
-\usepackage{float}
-\usepackage{subfig}
+% \usepackage{amssymb}
+% \usepackage{amsmath}
+% \usepackage{amsthm}
+% \usepackage{graphicx}
+% % \usepackage{authblk}
+% \usepackage{float}
+% % \usepackage{subfig}
 \usepackage{epsfig}
-% \usepackage{subfigure}
-\usepackage{setspace}
-\usepackage{geometry}
-\geometry{left=2cm,right=2cm,top=2cm,bottom=2cm}
+% % \usepackage{subfigure}
+% \usepackage{setspace}
+% % \usepackage{geometry}
+% % \geometry{left=2cm,right=2cm,top=2cm,bottom=2cm}
+% \usepackage[margin=2cm]{geometry}
 
-\usepackage{tabularx}
+% \usepackage{tabular}
+
+% \usepackage[usenames,dvipsnames]{xcolor}
+% \usepackage[colorlinks=true,linkcolor=black,citecolor=BlueViolet,urlcolor=Maroon]{hyperref}
+% % \usepackage{caption}
+% \usepackage{subcaption}
+% % \usepackage{enumerate}
+% \usepackage{tikz}
+
+\usepackage{graphics}
+% \usepackage{subfigure}
+\usepackage{times}
+\usepackage{mathptmx}
+\usepackage[margin=2cm]{geometry}
 
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=BlueViolet,urlcolor=Maroon]{hyperref}
-% \usepackage{caption}
-% \usepackage{subcaption}
-% \usepackage{enumerate}
+\usepackage{subcaption}
+\usepackage{enumerate}
+\usepackage{amsthm, amsmath, amssymb} % Mathematical typesetting
+
 \usepackage{tikz}
  
-\title{COMP6706 Report: Towards More Accurate Fingerprint Recognition Using Deep Learning and Graph Matching}
-\author{
-    Cao Pei (20031287R) \\
-    \text{peipei.cao@connect.polyu.hk}
-    \and 
-    Feng Yulin (18070059R) \\
-    \text{yulin.feng@connect.polyu.hk}
-}
-
-\date{}
-
 \newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
 \newcommand{\entit}{COMP6706 Report: Towards More Accurate Fingerprint Recognition Using Deep Learning and Graph Matching}
-\newcommand{\numword}{Number of Words: }
 
 \begin{document}
 \begin{titlepage}
@@ -43,34 +46,49 @@
         \vspace{-1.5ex}
         { \bfseries \entit \\ \vspace{0.4cm}}
           \horrule{2pt} \vspace{-2ex}
-        \numword \\
     \end{center}
 
-    \vspace{3cm}
+    \vspace{2cm}
     \begin{table}[h]
         \centering
-        \begin{tabular}{p{3cm}<{\raggedleft} p{6cm}<{\centering}}
-          Name： & {Cao Pei}            \\
-          Student ID： & {20031287R}          \\
-          Email： & {peipei.cao@connect.polyu.hk} \\
+        \begin{tabular}{lc}
+          Name:  & {Cao Pei}            \\
+          Student ID:  & {20031287r}          \\
+          Email:  & {peipei.cao@connect.polyu.hk} \\
         \end{tabular}
     \end{table}
 
-    \vspace{3cm}
+    \vspace{1cm}
     \begin{table}[h]
         \centering
-        \begin{tabular}{p{3cm}<{\raggedleft} p{6cm}<{\centering}}
-          Name： & {Feng Yulin}            \\
-          Student ID： & {18070059R}          \\
-          Email： & {yulin.feng@connect.polyu.hk} \\
+        \begin{tabular}{lc}
+          Name:  & {Feng Yulin}            \\
+          Student ID:  & {18070069r}          \\
+          Email:  & {yulin.feng@connect.polyu.hk} \\
         \end{tabular}
+    \end{table}
+
+    \vspace{1cm}
+    \centering Word Count
+    \begin{table}[htbp]
+      \centering
+      \begin{tabular}{l|c}
+        \hline
+        Abstract & A \\
+        Introduction & A \\
+        Related Work & A \\
+        Methodology & A \\
+        Experiments and Results & A \\
+        Conclusions and Future Work & A \\ \hline
+        Total (exclude references) & A \\ \hline
+      \end{tabular}
     \end{table}
 
 \end{titlepage}
 
 \newpage
 
-\begin{spacing}{1} 
+% \begin{spacing}{1} 
     % \maketitle   
 
     \input{abstract.tex}
@@ -81,10 +99,10 @@
     \input{section5_conclusion.tex} 
     
 
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \bibliography{ref}
 
-\end{spacing}
+% \end{spacing}
 \end{document}
 
  
