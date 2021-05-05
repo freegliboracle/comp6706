@@ -22,7 +22,7 @@
 
 We first tried to use NBIS \cite{NBIS} to mark the ground truth minutiae and use it for training.
 However, we found that the minutiae detection accuracy of NBIS is low.
-It will output a image quality number together with the minutiae location and we can set a threshold to select minutiae.
+It will output an image quality number together with the minutiae location and we can set a threshold to select minutiae.
 However, the accuracy is low and if we set a high threshold, then many correct minutiae could not be detected, such as the image shown in Fig. \ref{subfig:NBIS-high}.
 And if we set a higher threshold, then it will detect many wrong minutiae, as shown in Fig. \ref{subfig:NBIS-low}.
 Besides, it cannot find an accurate minutiae threshold, as it either detected a lot of wrong minutiae or miss many important minutiae, or both.
@@ -57,6 +57,7 @@ We set a high threshold (35) to filter the incorrect minutiae and get the ground
         }
         \subcaptionbox{
             minutiae map
+            \label{subfig:not-good-1}
         }{
             \includegraphics[width=\subwidth\linewidth]{fig/mask/mask-0.png}
         }
@@ -80,12 +81,12 @@ We set a high threshold (35) to filter the incorrect minutiae and get the ground
         }
         \subcaptionbox{
             merged image
-            \label{good-1}
+            \label{subfig:good-1}
         }{
             \includegraphics[width=\subwidth\linewidth]{fig/mask/merge-1.png}
         }
     \end{minipage}
-    \quad
+    \newline
     \begin{minipage}{.48\linewidth}
         \subcaptionbox{
             original image
@@ -94,11 +95,12 @@ We set a high threshold (35) to filter the incorrect minutiae and get the ground
         }
         \subcaptionbox{
             minutiae map
-        }{
+            }{
             \includegraphics[width=\subwidth\linewidth]{fig/mask/mask-2.png}
         }
         \subcaptionbox{
             merged image
+            \label{subfig:good-2}
         }{
             \includegraphics[width=\subwidth\linewidth]{fig/mask/merge-2.png}
         }
@@ -117,6 +119,7 @@ We set a high threshold (35) to filter the incorrect minutiae and get the ground
         }
         \subcaptionbox{
             merged image
+            \label{subfig:not-good-2}
         }{
             \includegraphics[width=\subwidth\linewidth]{fig/mask/merge-3.png}
         }
@@ -127,9 +130,29 @@ We set a high threshold (35) to filter the incorrect minutiae and get the ground
 \end{figure}
 
 We test our model using the rest of the fingerprint images in FVC2006 dataset.
-Fig \ref{fig:minutiae-map} presents some sample images and corresponding minutiae map.
+Fig \ref{fig:minutiae-map} presents some randomly selected sample images and corresponding minutiae map.
 We also merge the original images and the predicted minutiae map to make it more clear to view.
+From Fig. \ref{fig:minutiae-map}, we can find that the minutiae in sub-figure \ref{subfig:good-1} and \ref{subfig:good-2} are very accurate.
+Almost every minutiae is detected and there is not wrongly detected minutiae.
+The minutiae in \ref{subfig:not-good-1} and \ref{subfig:not-good-2} is a little worse, where a few minutiae in the noisy area is wrongly detected.
 
+The minutiae detection results are much better than existing algorithms, such as MinutiaeNet \cite{MinutiaeNet}.
+We used the source code provided in \cite{MinutiaeNet} and calculate the corresponding minutiae.
+Fig. \ref{fig:minutiaenet-results} presents some sample minutiae detection results.
+We can easily find that there is a lot of wrongly detected minutiae and missed minutiae.
+Due to the time limitation, we did not implement other deep learning based algorithms and make comparison, but based on the detection results, we think our minutiae detection network achieve a very high accuracy and may surpass many existing minutiae detection algorithms.
+% , therefore we refer the minutiae detection results in the papers and make a simple comparison.
 
+\def \figwidth {.19}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\figwidth\linewidth]{fig/minutiaenet/1.jpg}
+    \includegraphics[width=\figwidth\linewidth]{fig/minutiaenet/2.jpg}
+    \includegraphics[width=\figwidth\linewidth]{fig/minutiaenet/3.jpg}
+    \includegraphics[width=\figwidth\linewidth]{fig/minutiaenet/4.jpg}
+    \includegraphics[width=\figwidth\linewidth]{fig/minutiaenet/5.jpg}
+    \caption{Some sample minutiae detection results of MinutiaeNet \cite{MinutiaeNet}}
+    \label{fig:minutiaenet-results}
+\end{figure}
 
-\subsection{Minutiae Detection}
+% After detect the minutiae, we then use non maximum suppression to locate the minutiae.
