@@ -3,6 +3,23 @@
 
 \subsection{Training Data Preparation}
 
+We first tried to use NBIS \cite{NBIS} to mark the ground truth minutiae and use it for training.
+However, we found that the minutiae detection accuracy of NBIS is low.
+It will output an image quality number together with the minutiae location and we can set a threshold to select minutiae.
+However, the accuracy is low and if we set a high threshold, then many correct minutiae could not be detected, such as the image shown in Fig. \ref{subfig:NBIS-high}.
+And if we set a higher threshold, then it will detect many wrong minutiae, as shown in Fig. \ref{subfig:NBIS-low}.
+Besides, it cannot find an accurate minutiae threshold, as it either detected a lot of wrong minutiae or miss many important minutiae, or both.
+In addition, the locations of much minutiae were wrongly labeled.
+For example, in Fig. \ref{subfig:NBIS-low}, three minutiae locations was not correct and we highlight them using yellow color, and we also mark the correct position with red circle.
+We can find that there are about 10 pixels gap between the correct minutiae location and those wrongly detected minutiae location, which will make it harder to train a good model.
+
+Therefore, we decide to mark the ground truth minutiae ourselves using labelme \cite{labelme}.
+Because it is difficult to find some latent minutiae in the original image, we first enhance the original fingerprint image by estimating the orientation first and then binarizing with the orientations \cite{caoFingerprintImageEnhancement2017}.
+After that, we merge the binarized enhanced images with the original images, and then use labelme to manually mark the minutiae on the merged images.
+We did not directly use the binarization enhanced images because that there are much wrong minutiae in the enhanced images, therefore we should refer the original images too.
+Fig. \ref{subfig:manually-label} presents an example of the the merged images and our manually marked minutiae.
+It is the same image as Fig. \ref{subfig:NBIS-low} and \ref{subfig:NBIS-high}, where our manually marked minutiae is much more accurate than them.
+
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Minutiae detected by NBIS (with a high quality threshold)\label{subfig:NBIS-high}}{
@@ -20,23 +37,6 @@
     \label{fig:label}
 \end{figure}
 
-
-We first tried to use NBIS \cite{NBIS} to mark the ground truth minutiae and use it for training.
-However, we found that the minutiae detection accuracy of NBIS is low.
-It will output an image quality number together with the minutiae location and we can set a threshold to select minutiae.
-However, the accuracy is low and if we set a high threshold, then many correct minutiae could not be detected, such as the image shown in Fig. \ref{subfig:NBIS-high}.
-And if we set a higher threshold, then it will detect many wrong minutiae, as shown in Fig. \ref{subfig:NBIS-low}.
-Besides, it cannot find an accurate minutiae threshold, as it either detected a lot of wrong minutiae or miss many important minutiae, or both.
-In addition, the locations of much minutiae were wrongly labeled.
-For example, in Fig. \ref{subfig:NBIS-low}, three minutiae locations was not correct and we highlight them using yellow color, and we also mark the correct position with red circle.
-We can find that there are about 10 pixels gap between the correct minutiae location and those wrongly detected minutiae location, which will make it harder to train a good model.
-
-Therefore, we decide to mark the ground truth minutiae ourselves using labelme \cite{labelme}.
-Because it is difficult to find some latent minutiae in the original image, we first enhance the original fingerprint image by estimating the orientation first and then binarizing with the orientations \cite{caoFingerprintImageEnhancement2017}.
-After that, we merge the binarized enhanced images with the original images, and then use labelme to manually mark the minutiae on the merged images.
-We did not directly use the binarization enhanced images because that there are much wrong minutiae in the enhanced images, therefore we should refer the original images too.
-Fig. \ref{subfig:manually-label} presents an example of the the merged images and our manually marked minutiae.
-It is the same image as Fig. \ref{subfig:NBIS-low} and \ref{subfig:NBIS-high}, where our manually marked minutiae is much more accurate than them.
 
 As a result, we first manually selected 200 fingerprint images from the FVC2006 dataset \cite{FVC2006} and marked them manually.
 Because we thought these images were not enough and therefore we also manually selected 300 more different high quality fingerprint images which minutiae detection are relatively accurate.
@@ -162,6 +162,10 @@ Due to the time limitation, we did not implement other deep learning based algor
 
 \subsection{Graph Triplet}
 
+We use MNIST dataset \cite{LecunIEEE1998} to build the graph triplet, and use SplineCNN layer \cite{FeyCVPR2018splinecnn} \cite{FeyICLR2020DGMC} to replace the CNN layer which is normally used in computer vision task. Each MNIST image is represented as a graph, whose nodes correspond to the pixels in the image and the edge is formed by connected each pixel to all its neighboring pixels. Therefore, based on this setup, each MNIST image is a graph with the same number of nodes, which is $784(=28^2)$. The graph triplet is formulated as follows: for each sample as the anchor in the training dataset, we randomly select another sample which belongs to the same class as the positive sample, and randomly select one sample from the rest classes as the negative sample. 
+
+Similar to CNN neural network configuration, we build a SplineCNN network, which contains two SplineCNN layers, and ech SplineCNN layer is followed by an exponential linear unit (ELU) and a max-pooling layer. There are two fully connected layers, the first fully connected layer is also followed by an ELU layer, the output dimension of the final fully connected layer is $10$ (we also choose the final dimension to be $2$ for visualization). The initial learning rate is $10^{-3}$. Stochastic gradient descent with Adam method is used for optimization and the total training epochs is $20$.
+
 \begin{figure}[htb]
     \begin{minipage}[b]{0.48\linewidth}
         \centering
@@ -179,10 +183,6 @@ Due to the time limitation, we did not implement other deep learning based algor
     \caption{Visualization of MNIST training set and test set result}
     \label{fig:mnist_plot}
 \end{figure}
-
-We use MNIST dataset \cite{LecunIEEE1998} to build the graph triplet, and use SplineCNN layer \cite{FeyCVPR2018splinecnn} \cite{FeyICLR2020DGMC} to replace the CNN layer which is normally used in computer vision task. Each MNIST image is represented as a graph, whose nodes correspond to the pixels in the image and the edge is formed by connected each pixel to all its neighboring pixels. Therefore, based on this setup, each MNIST image is a graph with the same number of nodes, which is $784(=28^2)$. The graph triplet is formulated as follows: for each sample as the anchor in the training dataset, we randomly select another sample which belongs to the same class as the positive sample, and randomly select one sample from the rest classes as the negative sample. 
-
-Similar to CNN neural network configuration, we build a SplineCNN network, which contains two SplineCNN layers, and ech SplineCNN layer is followed by an exponential linear unit (ELU) and a max-pooling layer. There are two fully connected layers, the first fully connected layer is also followed by an ELU layer, the output dimension of the final fully connected layer is $10$ (we also choose the final dimension to be $2$ for visualization). The initial learning rate is $10^{-3}$. Stochastic gradient descent with Adam method is used for optimization and the total training epochs is $20$.
 
 For evaluation, since the total number of samples of MNIST test dataset is $10,000$ and they are not balanced for each class, we randomly choose 500 samples from each class. We use all-to-all evaluation protocol, which means for each test sample, Euclidean distance is computed against all the rest samples. Therefore, in total, we generate $1,247,500$ genuine scores and $11,250,000$ impostor scores. Since MNIST dataset is a simple dataset with a few number of classes and a large number of samples for each class, it turns out that there is no overlap between genuine scores and impostor scores. The equal error rate(EER) is thus zero.
 

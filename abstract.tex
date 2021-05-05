@@ -1,3 +1,12 @@
 \begin{abstract}
-    This paper proposes a new deep learning based method for fingerprint recognition. A deep convolutional neural network is trained to extract local fingerprnt feature. This network can not only locate the local fingerprint region of interest, but also extract discriminative local feature, which is of significant importance for fingerprint matching. Graph neural network is used for fingerprint matching, which can robustly deal with fingerprint image noise. To our knowledge, this is the first work of applying graph neural network for fingerprint recognition. Conventional fingerprint matching uses hard coded matching algorithms, and those algorithms cannot compare with even minutiae pair based matching. 
+    This paper proposes a new deep learning based method for fingerprint recognition.
+    First, a deep convolutional neural network is trained to extract the minutiae from fingerprint images.
+    Then we trained another deep model to learn a unique feature for every minutiae.
+    We share the same encoder and part of decoder for the minutiae detection and feature network, which greatly reduce the training and computation time.
+    These two models can not accurately locate the fingerprint minutiae, but also learn an accurate representation for the minutiae, which can significant improve the matching.
+    Last, a graph neural network model is used for fingerprint matching, which can robustly deal with fingerprint image noise.
+    To our knowledge, this is the first work of applying graph neural network for fingerprint recognition.
+    Conventional fingerprint graph matching uses hard coded matching algorithms, and those algorithms cannot even compare with minutiae pair based matching.
+    In conclusion, we propose a novel kind of deep learning based fingerprint recognition model which detected the minutiae and extract corresponding feature, and use a graph neural network to match the obtained minutiae feature.
+    Due to the time limitation, we did not implement the whole pipeline so far, but our current progress show that the proposed model are very likely to achieve much higher fingerprint recognition accuracy.
 \end{abstract}

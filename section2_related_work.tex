@@ -2,7 +2,24 @@
 \label{sec:related}
 
 \subsection{Conventional Fingerprint Recognition Method}
+% Check: if it is correct
+
 Minutiae based method is the most widely used method for fingerprint recognition. Consider two fingerprint images with M and N minutiae respectively. Each minutiae is represented by location, orientation and type. A solution is required to match as many minutiae pairs as possible. To achieve this goal, local minutiae structures are formed to match minutiae. Compared with global minutiae matching \cite{ChikkerurICB2006}, local minutiae matching are computationally cheaper and more robust against fingerprint distortion. Earlier approaches can be found in \cite{HrechakPR1990} and \cite{KovacsTPAMI2000}. To describe local minutiae structure, two methods were proposed: nearest neighbor based and fixed radius based. For nearest neighbor based method, the number of neighbors is fixed \cite{JiangICPR2000} so each minutiae has same number of nearest neighbors. For fixed radius method, a radius is given so that all minutiae that fall within the circle defined by the minutiae as the center and the radius are included \cite{CappelliTPAMI2010mcc}. However, both approaches have their own drawbacks. Nearest neighbor method suffers from missing minutiae and spurious minutiae. Although fixed length method alleviates the issue of missing minutiae and spurious minutiae, it has potential border issues, which means that the minutiae near the border of the circle should be properly treated.
+
+\subsection{Minutiae Detection}
+
+Generally speaking, it is relatively easy to accurately detect the minutiae in very high quality fingerprint images.
+However, it remains very hard to detect the minutiae in a normal quality or low quality fingerprint images.
+It is mainly due to the large amount of variation inherent in different fingerprint images, various environments of collecting fingerprint images, and the complex variations of thickness and consistency in the ridge and valley \cite{darlowFingerprintMinutiaeExtraction2017a}.
+Traditional minutiae extraction algorithms usually enhance the fingerprint images using local orientations first, then thin the ridges in the enhanced images, and finally locate the minutiae.
+
+During the past few years, several deep learning based minutiae extraction algorithm were proposed.
+\cite{darlowFingerprintMinutiaeExtraction2017a} propose a deep neural network named as MENet to learn a representation of minutiae.
+It cannot detect the minutiae accurately and use a post-processing procedure to determine the precise location of minutiae.
+\cite{tangLatentFingerprintMinutia2017a} use a fully convolutional network (FCN) \cite{FCN} to calculate the feature map and then use location classification and regression to detect the minutiae based on the map.
+\cite{NguyenICB2018} used two deep learning networks (named as CoarseNet and FineNet) to output the minutiae score map and detect the location and orientation of minutiae respectively.
+\cite{End2End} used an AutoEncoder structure to enhance the fingerprint patches and then use another AutoEncoder to learn the minutiae map and orientation under the enhanced fingerprint patches.
+
 
 \subsection{Deep Learning Method for Fingerprint Recognition}
 The past decade has witnessed the great progress of deep learning in computer vision and pattern recognition \cite{HeCVPR2016ResNet} \cite{Simonyan2014VGG} \cite{SzegedyCVPR2015InceptionV1}. The name “deep learning” is derived from the architecture of deep artificial neural networks, which belongs to the family of machine learning methods. Compared with traditional neural networks which have only one or two layers, deep neural network can have tens or hundreds of layers. Such great progress of deep learning has also facilitated not only the research on fingerprint matching \cite{CaoTPAMI2018}, but also the research on other fingerprint recognition related tasks, such as minutia extraction \cite{TangIJCB2017} \cite{NguyenICB2018}. \cite{LinTIFS2018} did the pioneering work on matching with contactless and contact-based 2D fingerprint with convolutional neural network (CNN), while \cite{LinPR2018} also used CNN to match 3D fingerprint, and both works showed that fingerprint recognition with CNN based method can achieve outperforming results. Instead of extracting minutiae for fingerprint matching, \cite{EngelsmaTPAMI2019} trained a deep neural network to extract fixed-length fingerprint descriptor and regarded minutiae extraction as one step to achieve the final fixed-length representation.
