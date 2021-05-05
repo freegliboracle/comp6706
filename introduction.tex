@@ -1,0 +1,11 @@
+\section{Introduction}
+
+Fingerprint recognition is an increasingly popular research domain of research and has attracted significant attention from both the academia and industry.
+It is one of the most accurate and reliable human biometrics recognition technology, and has been widely used in a great many of civilian applications such as forensics, e-business application, physical access control, large-scale identifications applications, etc \cite{finger-handbook}.
+
+Generally speaking, the fingerprint images can be classified as 3 categories: plain, latent and rolled \cite{nimkarFingerprintSegmentationAlgorithms2014}.
+The plain fingerprint images are usually acquired by touching the fingers on a flat surface.
+The latent images are usually collected from some real crime scenes, therefore is usually low quality and contains a lot of noise.
+And the rolled fingerprint images are often collected by rolling the fingers from one side to another, which can keep most of the fingerprint ridge information \cite{nimkarFingerprintSegmentationAlgorithms2014}.
+There are seven kinds of main factors which is responsible for the intra-class variations:  displacement, rotation, partial overlap, non-linear distortion, press and skin condition,  noise and feature extraction errors \cite{finger-handbook}.
+The most important and difficult factor is the  non-linear distortion problem. This kind of error is generated on the process of sensing  the 3D fingerprint shapes into a 2D flat surface. Most fingerprint matching algorithms  usually do not consider such variations, and consider the obtained fingerprint images  as non-distorted by assuming that it was produced by a correct finger placement.  Fingerprint recognition can be divided into two parts: fingerprint segmentation and  fingerprint matching. Fingerprint segmentation is the process which extract the  foreground regions from the original fingerprint images \cite{finger-handbook}. There are many different  kinds of segmentation methods and in this survey and project, we will use segmented  images and will only concentrate on the matching part. In the following survey details  part, we will introduce some newly published deep learning-based fingerprint  recognition algorithms.  
