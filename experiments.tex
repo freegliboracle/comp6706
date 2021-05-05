@@ -1,0 +1,135 @@
+\section{Experiments and Results}
+
+\subsection{Training Data Preparation}
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Minutiae detected by NBIS (with a high quality threshold)\label{subfig:NBIS-high}}{
+        \includegraphics[width=.3\linewidth]{fig/label/nbis-high-thre.pdf}
+    }
+    \quad
+    \subcaptionbox{Our manually marked minutiae\label{subfig:manually-label}}{
+        \includegraphics[width=.3\linewidth]{fig/label/manually.png}
+    }
+    \quad
+    \subcaptionbox{Minutiae detected by NBIS (with a low quality threshold)\label{subfig:NBIS-low}}{
+        \includegraphics[width=.3\linewidth]{fig/label/nbis-low-thre.pdf}
+    }
+    \caption{A sample manually marked minutiae with corresponding NBIS detected minutiae}
+    \label{fig:label}
+\end{figure}
+
+
+We first tried to use NBIS \cite{NBIS} to mark the ground truth minutiae and use it for training.
+However, we found that the minutiae detection accuracy of NBIS is low.
+It will output a image quality number together with the minutiae location and we can set a threshold to select minutiae.
+However, the accuracy is low and if we set a high threshold, then many correct minutiae could not be detected, such as the image shown in Fig. \ref{subfig:NBIS-high}.
+And if we set a higher threshold, then it will detect many wrong minutiae, as shown in Fig. \ref{subfig:NBIS-low}.
+Besides, it cannot find an accurate minutiae threshold, as it either detected a lot of wrong minutiae or miss many important minutiae, or both.
+In addition, the locations of much minutiae were wrongly labeled.
+For example, in Fig. \ref{subfig:NBIS-low}, three minutiae's locations was not correct and we highlight them using yellow color, and we also mark the correct position with red circle.
+We can find that there are about 10 pixels gap between the correct minutiae location and those wrongly detected minutiae location, which will make it harder to train a good model.
+
+Therefore, we decide to mark the ground truth minutiae ourselves using labelme \cite{labelme}.
+Because it is difficult to find some latent minutiae in the original image, we first enhance the original fingerprint image by estimating the orientation first and then binarizing with the orientations \cite{caoFingerprintImageEnhancement2017}.
+After that, we merge the binarized enhanced images with the original images, and then use labelme to manually mark the minutiae on the merged images.
+We did not directly use the binarization enhanced images because that there are much wrong minutiae in the enhanced images, therefore we should refer the original images too.
+Fig. \ref{subfig:manually-label} presents an example of the the merged images and our manually marked minutiae.
+It is the same image as Fig. \ref{subfig:NBIS-low} and \ref{subfig:NBIS-high}, where our manually marked minutiae is much more accurate than them.
+
+As a result, we first manually selected 200 fingerprint images from the FVC2006 dataset \cite{FVC2006} and marked them manually.
+Because we thought these images were not enough and therefore we also manually selected 300 more different high quality fingerprint images which minutiae detection are relatively accurate.
+These images are all very clear and the most minutiae was detected by minutiae.
+We set a high threshold (35) to filter the incorrect minutiae and get the ground truth minutiae (although there was some missed minutiae and little wrongly detected minutiae).
+
+
+\subsection{Minutiae Detection}
+
+\def\subwidth{.3}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{.48\linewidth}
+        \subcaptionbox{
+            original image
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/ori-0.png}
+        }
+        \subcaptionbox{
+            minutiae map
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/mask-0.png}
+        }
+        \subcaptionbox{
+            merged image
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/merge-0.png}
+        }
+    \end{minipage}
+    \quad
+    \begin{minipage}{0.48\linewidth}
+        \subcaptionbox{
+            original image
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/ori-1.png}
+        }
+        \subcaptionbox{
+            minutiae map
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/mask-1.png}
+        }
+        \subcaptionbox{
+            merged image
+            \label{good-1}
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/merge-1.png}
+        }
+    \end{minipage}
+    \quad
+    \begin{minipage}{.48\linewidth}
+        \subcaptionbox{
+            original image
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/ori-2.png}
+        }
+        \subcaptionbox{
+            minutiae map
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/mask-2.png}
+        }
+        \subcaptionbox{
+            merged image
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/merge-2.png}
+        }
+    \end{minipage}
+    \quad
+    \begin{minipage}{0.48\linewidth}
+        \subcaptionbox{
+            original image
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/ori-3.png}
+        }
+        \subcaptionbox{
+            minutiae map
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/mask-3.png}
+        }
+        \subcaptionbox{
+            merged image
+        }{
+            \includegraphics[width=\subwidth\linewidth]{fig/mask/merge-3.png}
+        }
+    \end{minipage}
+
+    \caption{Some sample images and predicted minutiae map}
+    \label{fig:minutiae-map}
+\end{figure}
+
+We test our model using the rest of the fingerprint images in FVC2006 dataset.
+Fig \ref{fig:minutiae-map} presents some sample images and corresponding minutiae map.
+We also merge the original images and the predicted minutiae map to make it more clear to view.
+
+
+
+\subsection{Minutiae Detection}
